@@ -2,28 +2,67 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 public class PowerLineScript : MonoBehaviour {
+    public enum FlowDirection
+    {
+        Up,
+        Down,
+        Left,
+        Right,
+        None
+    };
+    public FlowDirection CurrentFlowDirection = FlowDirection.None;
     LineRenderer lineRenderer;
 	public List<GameObject> ConnectedDots = new List<GameObject>();
-	public int MaxPower;
 	public int Power = 0;
 	int indexPos = 0;
 	Vector3[] positions;
 	GameObject Arrow;
+    GameObject highestPowerObj;
+    GameObject control;
     // Use this for initialization
     void Start () {
 		GetComponent<BoxCollider2D>().enabled = false;
 		Arrow = transform.FindChild("Arrow").gameObject;
+        control = GameObject.Find("Control");
     }
-	public void SetPower(int power){
-		Power = power;
-	}
+	public void SetPower(int power,GameObject supplier){
+        Power = power;
+        highestPowerObj = supplier;
+    }
 	void TestPower()
 	{
-		int highestPower = 0;
+        bool DontTestForPower = false;
+        foreach (GameObject obj in ConnectedDots)
+        {
+            foreach (Collider2D col in Physics2D.OverlapPointAll(obj.transform.position))
+            {
+                if (col.gameObject.layer == 10)
+                {
+                    if (col.gameObject.GetComponent<PowerOutput>() != null)
+                    {
+                        DontTestForPower = false;
+                        break;
+                    }
+                    else
+                    {
+                        DontTestForPower = true;
+                        break;
+                    }
+                }
+            }
+            if (DontTestForPower == false)
+                break;
+        }
+        if (DontTestForPower)
+        {
+            return;
+        }
+
+        int highestPower = 0;
 		bool fromPowerSource = false;
-		bool DontTestForPower = false;
+		
 		int highestPowerDir = 0;
-		GameObject highestPowerObj = null;
+		highestPowerObj = null;
 		foreach(GameObject obj in ConnectedDots)
 		{
 			foreach(Collider2D col in Physics2D.OverlapPointAll(obj.transform.position))
@@ -64,46 +103,70 @@ public class PowerLineScript : MonoBehaviour {
 				}
 			}
 		}
-		if (highestPower > 0)
-		{
-			Arrow.SetActive(true);
-			if (fromPowerSource)
-				Power = highestPower;
-			else
-				Power = highestPower-1;
-
-
-			if (highestPowerObj.transform.position.y > Arrow.transform.position.y)
-			{
-				Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x,transform.rotation.y,transform.rotation.z-90));
-			}
-			if (highestPowerObj.transform.position.y < Arrow.transform.position.y)
-			{
-				Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x,transform.rotation.y,transform.rotation.z+90));
-			}
-			if (highestPowerObj.transform.position.x < Arrow.transform.position.x)
-			{
-				Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x,transform.rotation.y,0));
-			}
-			if (highestPowerObj.transform.position.x > Arrow.transform.position.x)
-			{
-				Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x,transform.rotation.y,-180));
-			}
-		}
-		else
-		{
-			Power = 0;
-			Arrow.SetActive(false);
-		}
-		if (lineRenderer != null)
-			lineRenderer.SetColors(new Color((float)Power/(float)MaxPower,(float)Power/(float)MaxPower,0),
-		                           new Color((float)Power/(float)MaxPower,(float)Power/(float)MaxPower,0));
+        if (!DontTestForPower)
+        {
+            if (highestPower > 0)
+            {
+                if (fromPowerSource)
+                    Power = highestPower;
+                else
+                    Power = highestPower - 1;
+            }
+            else
+            {
+                Power = 0;
+            }
+        }
+		
 	}
 	// Update is called once per frame
+    void TestPowerFlow()
+    {
+        if (Power > 0)
+        {
+            Arrow.SetActive(true);
+
+            if (highestPowerObj.transform.position.y > Arrow.transform.position.y)
+            {
+                Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z - 90));
+                CurrentFlowDirection = FlowDirection.Down;
+            }
+            if (highestPowerObj.transform.position.y < Arrow.transform.position.y)
+            {
+                Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z + 90));
+                CurrentFlowDirection = FlowDirection.Up;
+            }
+            if (highestPowerObj.transform.position.x < Arrow.transform.position.x)
+            {
+                Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, 0));
+                CurrentFlowDirection = FlowDirection.Right;
+            }
+            if (highestPowerObj.transform.position.x > Arrow.transform.position.x)
+            {
+                Arrow.transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, -180));
+                CurrentFlowDirection = FlowDirection.Left;
+            }
+        }
+        else
+        {
+            Arrow.SetActive(false);
+            CurrentFlowDirection = FlowDirection.None;
+        }
+        if (lineRenderer != null)
+            lineRenderer.SetColors(new Color((float)Power / (float)PowerOutput.MaxPower, (float)Power / (float)PowerOutput.MaxPower, 0),
+                                   new Color((float)Power / (float)PowerOutput.MaxPower, (float)Power / (float)PowerOutput.MaxPower, 0));
+    }
 	void Update () {
 		TestPower();
-
-
+        TestPowerFlow();
+        if (control.GetComponent<ControlScript>().CurrentMode != ControlScript.Mode.Connect)
+        {
+            Arrow.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            Arrow.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 	public void SetUp(Vector3 pos){
 		indexPos = 0;

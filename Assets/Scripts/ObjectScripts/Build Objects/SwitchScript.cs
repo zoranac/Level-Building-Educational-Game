@@ -12,7 +12,7 @@ public class SwitchScript : InteractableObject {
 	void Update () {
 	
 	}
-	public void Interact()
+    override public void Interact()
 	{
 		On = !On;
 	}

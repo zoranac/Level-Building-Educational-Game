@@ -13,8 +13,6 @@ public class ConnectorSwitch : MonoBehaviour {
 	GameObject connectedObject;
 	public bool SwitchState = false;
 	GameObject dotTile;
-	public Location InputLocation = Location.Top;
-	public Location OutputLocation = Location.Bottom;
 	//input and output directions
 
 	// Use this for initialization
@@ -30,23 +28,34 @@ public class ConnectorSwitch : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		TestIfConnected();
-		if (InputLocation == Location.Top)
-		{
-			if (dotTile.GetComponent<DotTileScript>().TileAbove != null)
-			{
-				if (dotTile.GetComponent<DotTileScript>().Powered)
-				{
-					if (dotTile.GetComponent<DotTileScript>().TileBelow != null)
-					{
-
-					}
-				}
-			}
-		}
-	}
+        UpdateSwitchState();
+        ApplySwitch();
+    }
+    void ApplySwitch()
+    {
+        if (dotTile.GetComponent<DotTileScript>().Powered)
+        {
+            foreach (GameObject obj in dotTile.GetComponent<DotTileScript>().Connections)
+            {
+                if (SwitchState)
+                {
+                    if (obj.GetComponent<PowerLineScript>().Power == 0)
+                        obj.GetComponent<PowerLineScript>().SetPower(PowerOutput.MaxPower,gameObject);
+                }
+                else {
+                    //if ((obj.transform.position.x > dotTile.transform.position.x && obj.GetComponent<PowerLineScript>().CurrentFlowDirection == PowerLineScript.FlowDirection.) ||
+                    //    (obj.transform.position.x < dotTile.transform.position.x && OutputLocation == Location.Right) ||
+                    //    (obj.transform.position.y > dotTile.transform.position.y && OutputLocation == Location.Top) ||
+                    //    (obj.transform.position.y < dotTile.transform.position.y && OutputLocation == Location.Bottom))
+                    obj.GetComponent<PowerLineScript>().SetPower(0,gameObject);
+                }
+            }
+        }
+    }
 	void UpdateSwitchState()
 	{
-		SwitchState = connectedObject.GetComponent<SwitchScript>().On;
+        if (connectedObject != null)
+		    SwitchState = connectedObject.GetComponent<SwitchScript>().On;
 	}
 	void TestIfConnected(){
 		Connected = false;

@@ -13,7 +13,7 @@ public class InteractableObject : PlaceableObject {
 	void Update () {
 	
 	}
-	public void Interact()
+	virtual public void Interact()
 	{
 
 	}

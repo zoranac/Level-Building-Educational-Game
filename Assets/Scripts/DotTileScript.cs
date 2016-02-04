@@ -35,6 +35,7 @@ public class DotTileScript : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+        TestIfPowered();
 		if (!Tested)
 		{
 			foreach (RaycastHit2D ray in Physics2D.RaycastAll(transform.position,Vector2.up,.5f)){
