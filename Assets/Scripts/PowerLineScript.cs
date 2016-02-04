@@ -14,10 +14,14 @@ public class PowerLineScript : MonoBehaviour {
 		GetComponent<BoxCollider2D>().enabled = false;
 		Arrow = transform.FindChild("Arrow").gameObject;
     }
+	public void SetPower(int power){
+		Power = power;
+	}
 	void TestPower()
 	{
 		int highestPower = 0;
 		bool fromPowerSource = false;
+		bool DontTestForPower = false;
 		int highestPowerDir = 0;
 		GameObject highestPowerObj = null;
 		foreach(GameObject obj in ConnectedDots)
@@ -35,7 +39,17 @@ public class PowerLineScript : MonoBehaviour {
 							highestPowerObj = obj;
 						}
 					}
+					else
+					{
+						DontTestForPower = true;
+						break;
+					}
 				}
+			}
+			if (DontTestForPower)
+			{
+				DontTestForPower = false;
+				continue;
 			}
 			foreach (GameObject connection in obj.GetComponent<DotTileScript>().Connections)
 			{

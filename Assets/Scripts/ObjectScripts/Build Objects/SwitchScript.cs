@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class SwitchScript : InteractableObject {
-
+	public bool On;
 	// Use this for initialization
 	void Start () {
 	
@@ -11,5 +11,9 @@ public class SwitchScript : InteractableObject {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+	public void Interact()
+	{
+		On = !On;
 	}
 }

@@ -46,23 +46,25 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraMovement.cs" />
-     <Compile Include="Assets\DotTileScript.cs" />
-     <Compile Include="Assets\PlayerScript.cs" />
+     <Compile Include="Assets\Scripts\CameraMovement.cs" />
      <Compile Include="Assets\Scripts\ControlScript.cs" />
+     <Compile Include="Assets\Scripts\DotTileScript.cs" />
      <Compile Include="Assets\Scripts\EditorGUI.cs" />
      <Compile Include="Assets\Scripts\MouseScript.cs" />
      <Compile Include="Assets\Scripts\ObjectPlacementButtonScript.cs" />
-     <Compile Include="Assets\Scripts\ObjectScripts\GeneratorScript.cs" />
-     <Compile Include="Assets\Scripts\ObjectScripts\InteractableObject.cs" />
-     <Compile Include="Assets\Scripts\ObjectScripts\PlaceableObject.cs" />
-     <Compile Include="Assets\Scripts\ObjectScripts\PoweredObject.cs" />
-     <Compile Include="Assets\Scripts\ObjectScripts\SwitchScript.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\InteractableObject.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PlaceableObject.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PoweredDoor.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PoweredObject.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\SwitchScript.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\GeneratorScript.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\PowerOutput.cs" />
      <Compile Include="Assets\Scripts\PlayModeButton.cs" />
+     <Compile Include="Assets\Scripts\PlayerScript.cs" />
      <Compile Include="Assets\Scripts\PowerLineScript.cs" />
-     <Compile Include="Assets\Scripts\PowerOutput.cs" />
+     <Compile Include="Assets\Scripts\SupportCameraScript.cs" />
      <Compile Include="Assets\Scripts\TileSetUp.cs" />
-     <Compile Include="Assets\SupportCameraScript.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\EditorTag.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\MultiTagManager.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\TagFrenzyList.cs" />

@@ -1,20 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjectScripts\InteractableObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs">
     <Files>
-      <File FileName="Assets\Scripts\PowerLineScript.cs" Line="84" Column="28" />
-      <File FileName="Assets\Scripts\PowerOutput.cs" Line="1" Column="1" />
-      <File FileName="Assets\DotTileScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\GeneratorScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ControlScript.cs" Line="19" Column="42" />
-      <File FileName="Assets\Scripts\MouseScript.cs" Line="98" Column="43" />
-      <File FileName="Assets\Scripts\EditorGUI.cs" Line="15" Column="62" />
+      <File FileName="Assets\Scripts\PowerLineScript.cs" Line="16" Column="6" />
+      <File FileName="Assets\Scripts\ControlScript.cs" Line="11" Column="7" />
+      <File FileName="Assets\Scripts\MouseScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\EditorGUI.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayModeButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\PlayerScript.cs" Line="183" Column="50" />
-      <File FileName="..\Farming\Assets\Scripts\Player\PlayerMovement.cs" Line="210" Column="3" />
-      <File FileName="Assets\Scripts\ObjectScripts\SwitchScript.cs" Line="4" Column="47" />
-      <File FileName="Assets\Scripts\ObjectScripts\PoweredObject.cs" Line="8" Column="32" />
-      <File FileName="Assets\Scripts\ObjectScripts\InteractableObject.cs" Line="14" Column="2" />
+      <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs" Line="21" Column="17" />
+      <File FileName="Assets\Scripts\TileSetUp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DotTileScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\SwitchScript.cs" Line="5" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\InteractableObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PoweredObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PoweredDoor.cs" Line="13" Column="52" />
+      <File FileName="Assets\Scripts\PlayerScript.cs" Line="23" Column="19" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

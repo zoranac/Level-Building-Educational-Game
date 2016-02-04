@@ -4,13 +4,14 @@ using System.Collections;
 public class TileSetUp : MonoBehaviour {
 	public GameObject Tile;
     public GameObject ConnectorTile;
-	public GameObject EditViewPlane;
+	GameObject dotTileParent;
     float x = -24.5f;
 	float y =25f;
 	float startX = -24.5f;
 	float startZ = 25f;
 	// Use this for initialization
 	void Start () {
+		dotTileParent = GameObject.Find("DotTiles");
 	    while(y > -25){
 			while (x < 25.5f){
 				GameObject o = (GameObject)Instantiate(Tile,new Vector3(x,y,0), new Quaternion(0,0,0,0));
@@ -26,7 +27,7 @@ public class TileSetUp : MonoBehaviour {
 		while(y > -25){
 			while (x < 25.5f){
 				GameObject o = (GameObject)Instantiate(ConnectorTile,new Vector3(x,y,0), new Quaternion(0,0,0,0));
-				o.transform.parent = EditViewPlane.transform;
+				o.transform.parent = dotTileParent.transform;
 				x += .5f;
 			}
 			x = startX;

@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PoweredObject : MonoBehaviour {
-    public bool Powered = false;
-    public bool Attached = false;
-    public bool OutputsPower = false;
+public class PoweredDoor : PoweredObject {
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,6 +10,7 @@ public class PoweredObject : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		GetComponent<BoxCollider2D>().enabled = !Powered;
 	}
+
 }

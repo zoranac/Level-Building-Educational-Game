@@ -68,6 +68,7 @@ public class ControlScript : MonoBehaviour {
     {
         if (CurrentMode == Mode.Connect)
         {
+			ChangeConnectionObjectVisability();
 			BuildGUI.SetActive(true);
 			ConnectionGUI.SetActive(false);
 			CurrentMode = Mode.Build;
@@ -75,6 +76,7 @@ public class ControlScript : MonoBehaviour {
         }
         else if (CurrentMode == Mode.Build)
         {
+			ChangeConnectionObjectVisability();
 			BuildGUI.SetActive(false);
 			ConnectionGUI.SetActive(true);
 			CurrentMode = Mode.Connect;
@@ -86,6 +88,11 @@ public class ControlScript : MonoBehaviour {
     {
 		if (CurrentMode != Mode.Play)
 		{
+			GameObject.Find("Player").transform.position = PlayerStartPos;
+			if (CurrentMode == Mode.Connect)
+			{
+				ChangeConnectionObjectVisability();
+			}
 			drawObjBeforePlay = DrawObject;
 			posBeforePlay = Camera.main.transform.position;
 			zoomBeforePlay = Camera.main.orthographicSize;
@@ -108,6 +115,7 @@ public class ControlScript : MonoBehaviour {
 			editModeButton.SetActive(true);
 			if (CurrentMode == Mode.Connect)
 			{
+				ChangeConnectionObjectVisability();
 				ConnectionGUI.SetActive(true);
 			}
 			if (CurrentMode == Mode.Build)
@@ -117,9 +125,40 @@ public class ControlScript : MonoBehaviour {
 		}
 		
     }
-	private void HideConnectionObjects()
+	private void ChangeConnectionObjectVisability()
 	{
-
+		if (FindGameObjectsWithLayer(10) != null)
+		{
+			foreach (GameObject obj in FindGameObjectsWithLayer(10))
+			{
+				obj.GetComponent<SpriteRenderer>().enabled = !obj.GetComponent<SpriteRenderer>().enabled;
+			}
+		}
+		if (GameObject.FindGameObjectsWithTag("PowerLine") != null){
+			foreach (GameObject obj in GameObject.FindGameObjectsWithTag("PowerLine"))
+			{
+				obj.GetComponent<LineRenderer>().enabled = !obj.GetComponent<LineRenderer>().enabled;
+				if (obj.GetComponentInChildren<SpriteRenderer>() != null)
+					obj.GetComponentInChildren<SpriteRenderer>().enabled = !obj.GetComponentInChildren<SpriteRenderer>().enabled;
+			}
+		}
+		foreach (GameObject obj in GameObject.FindGameObjectsWithTag("DotTile"))
+		{
+			obj.GetComponent<SpriteRenderer>().enabled = !obj.GetComponent<SpriteRenderer>().enabled;
+		}
+	}
+	public GameObject[] FindGameObjectsWithLayer (int layer){
+		GameObject[] goArray = (GameObject[])GameObject.FindObjectsOfType(typeof(GameObject));
+		List<GameObject> goList = new List<GameObject>();
+		for (var i = 0; i < goArray.Length; i++) {
+			if (goArray[i].layer == layer) {
+				goList.Add(goArray[i]);
+			}
+		}
+		if (goList.Count == 0) {
+			return null;
+		}
+		return goList.ToArray();
 	}
 	// Update is called once per frame
 	void Update () {

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InteractableObject : PlaceableObject {
     public bool AttachedToGenerator;
-    public bool On;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -15,6 +15,6 @@ public class InteractableObject : PlaceableObject {
 	}
 	public void Interact()
 	{
-		On = !On;
+
 	}
 }
