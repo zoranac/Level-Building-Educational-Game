@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class MouseScript : MonoBehaviour {
-	float distance = 3;
+	//float distance = 3;
 	public float buffer;
 	ControlScript control;
 	GameObject CreateObj;
 	public bool Skip = false;
     public GameObject Highlight;
     public GameObject PowerLine;
+	public GameObject SelectGameObject;
+	public GameObject MoveObject;
+	GameObject objectEditor;
     bool PlacingPowerline = false;
     GameObject tempPowerLine;
 	// Use this for initialization
@@ -18,6 +22,7 @@ public class MouseScript : MonoBehaviour {
 //	}
 	void Start () {
 		control = GameObject.Find("Control").GetComponent<ControlScript>();
+		objectEditor = GameObject.Find("ObjectEditor");
 	}
 
 	// Update is called once per frame
@@ -33,13 +38,18 @@ public class MouseScript : MonoBehaviour {
 		//IF MODE IS EDIT
         if (control.GetComponent<ControlScript>().CurrentMode == ControlScript.Mode.Connect)
         {
-			if (CreateObj == PowerLine)
-            	DrawPowerLine();
-			else if (CreateObj == null)
-				EraseConnection();
-			else
-				CreateConnectionObject();
-			if (Highlight.activeSelf)
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+				if (CreateObj == SelectGameObject)
+					SelectObject();
+                else if (CreateObj == PowerLine)
+            	    DrawPowerLine();
+			    else if (CreateObj == null)
+				    EraseConnection();
+			    else
+				    CreateConnectionObject();
+            }
+            if (Highlight.activeSelf)
 				Highlight.SetActive(false);
         }
 		else if (control.GetComponent<ControlScript>().CurrentMode == ControlScript.Mode.Play)
@@ -51,10 +61,13 @@ public class MouseScript : MonoBehaviour {
         {
 			if (!Highlight.activeSelf)
 				Highlight.SetActive(true);
-            if (CreateObj == null)
-                Erase();
-            else
-                Draw();
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (CreateObj == null)
+                    Erase();
+                else
+                    Draw();
+            }
         }
 
 
@@ -72,10 +85,21 @@ public class MouseScript : MonoBehaviour {
         }
 
     }
+	void SelectObject(){
+		if (Input.GetMouseButtonDown(0))
+		{
+			foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+			{
+				if ((col.gameObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build) ||
+				    (col.gameObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect))
+					objectEditor.GetComponent<ObjectEditor>().SetSelectedObject(col.gameObject);
+			}
+		}
+	}
     void DrawPowerLine()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        distance = 3 + Input.mousePosition.x / 10;
+        //distance = 3 + Input.mousePosition.x / 10;
 
         //Move end of the Line to the mouse pos
         if (PlacingPowerline)
@@ -172,15 +196,15 @@ public class MouseScript : MonoBehaviour {
         }
         else
         {
-          
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            distance = 3 + Input.mousePosition.x / 10;
+            //distance = 3 + Input.mousePosition.x / 10;
 
             bool instantiate = false;
             Collider2D Obj = new Collider2D();
 
             foreach (RaycastHit2D obj in Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), ray.direction))
             {
+               
                 if (obj.collider.tag == "Tile")
                 {
                     Vector3 pos = obj.transform.position;
@@ -221,7 +245,7 @@ public class MouseScript : MonoBehaviour {
 			Skip = false;
 		}else{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			distance = 3 + Input.mousePosition.x/10;
+			//distance = 3 + Input.mousePosition.x/10;
 			
 			RaycastHit2D destroyObj = new RaycastHit2D();
             foreach (RaycastHit2D obj in Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), ray.direction))
@@ -254,7 +278,7 @@ public class MouseScript : MonoBehaviour {
 			Skip = false;
 		}else{
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			distance = 3 + Input.mousePosition.x/10;
+			//distance = 3 + Input.mousePosition.x/10;
 			
 			RaycastHit2D destroyObj = new RaycastHit2D();
 			foreach (RaycastHit2D obj in Physics2D.RaycastAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), ray.direction))
@@ -282,10 +306,7 @@ public class MouseScript : MonoBehaviour {
 					if (Input.GetMouseButton(0))
 					{
 						destroyObj = obj;
-						foreach(GameObject dot in obj.collider.GetComponent<PowerLineScript>().ConnectedDots)
-						{
-							dot.GetComponent<DotTileScript>().Connections.Remove(obj.collider.gameObject);
-						}
+						destroyObj.collider.GetComponent<PowerLineScript>().DestroyMe();
 					}
 				}
 			}
@@ -302,7 +323,7 @@ public class MouseScript : MonoBehaviour {
 		{
 			
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			distance = 3 + Input.mousePosition.x / 10;
+			//distance = 3 + Input.mousePosition.x / 10;
 			
 			bool instantiate = false;
 			Collider2D Obj = new Collider2D();
@@ -311,7 +332,7 @@ public class MouseScript : MonoBehaviour {
 			{
 				if (obj.collider.tag == "DotTile")
 				{
-					Vector3 pos = obj.transform.position;
+					//Vector3 pos = obj.transform.position;
 					//Highlight.transform.position = new Vector3(pos.x, pos.y, pos.z) ;
 				}
 				if (Input.GetMouseButton(0))

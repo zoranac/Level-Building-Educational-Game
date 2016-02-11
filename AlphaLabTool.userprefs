@@ -1,20 +1,18 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Editable.cs">
     <Files>
-      <File FileName="Assets\Scripts\PowerLineScript.cs" Line="16" Column="6" />
-      <File FileName="Assets\Scripts\ControlScript.cs" Line="11" Column="7" />
-      <File FileName="Assets\Scripts\MouseScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EditorGUI.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\PlayModeButton.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs" Line="21" Column="17" />
-      <File FileName="Assets\Scripts\TileSetUp.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Editable.cs" Line="15" Column="45" />
+      <File FileName="Assets\Scripts\PowerLineScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\PowerOutput.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\LogicGate.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DotTileScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\SwitchScript.cs" Line="5" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\InteractableObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PoweredObject.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PoweredDoor.cs" Line="13" Column="52" />
-      <File FileName="Assets\Scripts\PlayerScript.cs" Line="23" Column="19" />
+      <File FileName="Assets\Scripts\TempPowerOutput.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PlaceableObject.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CameraMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets\ObjectEditor.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MouseScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

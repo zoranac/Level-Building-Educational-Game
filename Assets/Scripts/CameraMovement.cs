@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
-    GameObject mouse;
+    //GameObject mouse;
     Camera myCamera;
     public float leftBufferPercentage;
     public float leftLimitPercentage;
@@ -10,7 +10,7 @@ public class CameraMovement : MonoBehaviour {
     Vector2 lastclickPos;
 	// Use this for initialization
 	void Start () {
-        mouse = GameObject.Find("Mouse");
+        //mouse = GameObject.Find("Mouse");
         myCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
     }
 	

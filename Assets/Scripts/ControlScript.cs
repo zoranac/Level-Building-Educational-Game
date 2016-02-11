@@ -27,6 +27,7 @@ public class ControlScript : MonoBehaviour {
 	GameObject drawObjBeforePlay;
 	// Use this for initialization
 	void Start () {
+		Screen.fullScreen = false; 
 		PlayerStartPos = GameObject.Find("Player").transform.position;
 
 		CreateGUIButtons();

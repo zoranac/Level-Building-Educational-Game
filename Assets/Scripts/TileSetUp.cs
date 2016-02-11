@@ -8,7 +8,7 @@ public class TileSetUp : MonoBehaviour {
     float x = -24.5f;
 	float y =25f;
 	float startX = -24.5f;
-	float startZ = 25f;
+	//float startY = 25f;
 	// Use this for initialization
 	void Start () {
 		dotTileParent = GameObject.Find("DotTiles");

@@ -17,42 +17,182 @@ public class PowerLineScript : MonoBehaviour {
 	int indexPos = 0;
 	Vector3[] positions;
 	GameObject Arrow;
-    GameObject highestPowerObj;
+    public GameObject highestPowerObj;
+	public GameObject PowerSourceObj;
     GameObject control;
-    // Use this for initialization
+    bool ForcedPowerOff = false;
+	public bool DontTestForPower = false;						//If it is not tested for power, only true if is an output of a temp power object
+	bool IsInput = false;										//will be used for Sprite Management, shoing flow direction and I/O direction
+	bool IsOutput = false;										//will be used for Sprite Management, shoing flow direction and I/O direction
+	// Use this for initialization
     void Start () {
 		GetComponent<BoxCollider2D>().enabled = false;
 		Arrow = transform.FindChild("Arrow").gameObject;
         control = GameObject.Find("Control");
     }
-	public void SetPower(int power,GameObject supplier){
+	public void SetPower(int power,GameObject supplier,GameObject source){
         Power = power;
-        highestPowerObj = supplier;
+		PowerSourceObj = source;
+        ForcedPowerOff = false;
+        if (Power > 0)
+            highestPowerObj = supplier;
+        else
+            ForcedPowerOff = true;
     }
+	void TestIfInInputsList(GameObject obj,bool Add)
+	{
+		bool inList = false;
+		foreach (GameObject o in obj.GetComponent<TempPowerOutput>().Inputs)
+		{
+			if (o == gameObject)
+			{
+				inList = true;
+				break;
+			}
+		}
+		if (!inList && Add)
+		{
+			obj.GetComponent<TempPowerOutput>().Inputs.Add(gameObject);
+		}
+		else if (inList && !Add)
+		{
+			obj.GetComponent<TempPowerOutput>().Inputs.Remove(gameObject);
+		}
+	}
+	void TestIfInOutputsList(GameObject obj,bool Add)
+	{
+		bool inList = false;
+		foreach (GameObject o in obj.GetComponent<TempPowerOutput>().Outputs)
+		{
+			if (o == gameObject)
+			{
+				inList = true;
+				break;
+			}
+		}
+		if (!inList && Add)
+		{
+			obj.GetComponent<TempPowerOutput>().Outputs.Add(gameObject);
+		}
+		else if (inList && !Add)
+		{
+			obj.GetComponent<TempPowerOutput>().Outputs.Remove(gameObject);
+		}
+	}
 	void TestPower()
 	{
-        bool DontTestForPower = false;
-        foreach (GameObject obj in ConnectedDots)
+		IsInput = false;
+		IsOutput = false;
+		DontTestForPower = false;
+        bool PowerOutput = false;
+        bool OtherConnectorObject = false;
+        GameObject otherConnectorObject1 = null;
+        GameObject otherConnectorObject2 = null; 
+		bool ignoreDot2 = false; //if dot in the ConnectedDots[1] is a temp power obj, ignore it.
+
+		//Test to see if you need to run test (If it is not an output of a temp power obj)
+		//Test collision of Dot 0
+        foreach (Collider2D col in Physics2D.OverlapPointAll(ConnectedDots[0].transform.position))
         {
-            foreach (Collider2D col in Physics2D.OverlapPointAll(obj.transform.position))
-            {
-                if (col.gameObject.layer == 10)
+            if (col.gameObject.layer == 10)
+			{
+                if (col.gameObject.GetComponent<PowerOutput>() != null)
                 {
-                    if (col.gameObject.GetComponent<PowerOutput>() != null)
-                    {
-                        DontTestForPower = false;
-                        break;
-                    }
-                    else
-                    {
-                        DontTestForPower = true;
-                        break;
-                    }
+                    PowerOutput = true;
+                    break;
+                }
+                else
+                {
+                    OtherConnectorObject = true;
+                    otherConnectorObject1 = col.gameObject;
+                    break;
                 }
             }
-            if (DontTestForPower == false)
-                break;
         }
+		//Test collision of Dot 1
+        foreach (Collider2D col in Physics2D.OverlapPointAll(ConnectedDots[1].transform.position))
+        {
+            
+            if (col.gameObject.layer == 10)
+            {
+                if (col.gameObject.GetComponent<PowerOutput>() != null)
+                {
+                    PowerOutput = true;
+                    break;
+                }
+                else
+                {
+                    OtherConnectorObject = true;
+                    otherConnectorObject2 = col.gameObject;
+                    break;
+                }
+            }
+        }
+        if (PowerOutput)
+        {
+            DontTestForPower = false;
+        }
+        else if (OtherConnectorObject)
+        {
+           	if (otherConnectorObject1 != null && otherConnectorObject1.GetComponent<TempPowerOutput>() != null)
+			{
+				IsOutput = true;
+				TestIfInOutputsList(otherConnectorObject1,true);
+				TestIfInInputsList(otherConnectorObject1,false);
+				DontTestForPower = true;
+			}
+			if (otherConnectorObject2 != null && otherConnectorObject2.GetComponent<TempPowerOutput>() != null)
+			{
+				IsInput = true;
+				TestIfInInputsList(otherConnectorObject2,true);
+				TestIfInOutputsList(otherConnectorObject2,false);
+				DontTestForPower = false;
+				ignoreDot2 = true;
+			}
+        }
+
+        //foreach (GameObject obj in ConnectedDots)
+        //{
+        //    bool hasConnectorObject = false;
+        //    //DontTestForPower = false;
+        //    foreach (Collider2D col in Physics2D.OverlapPointAll(obj.transform.position))
+        //    {
+        //        //if there is a connection object on the dot
+        //        if (col.gameObject.layer == 10)
+        //        {
+        //            hasConnectorObject = true;
+        //            //if it has a poweroutput script test for power
+        //            if (col.gameObject.GetComponent<PowerOutput>() != null)
+        //            {
+        //                DontTestForPower = false;
+        //                break;
+        //            }
+        //            //if it doesnt dont test for power
+        //            else
+        //            {
+        //                if (i == 0)
+        //                {
+        //                    DontTestForPower = true;
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    //if dont test for power
+        //    if (!hasConnectorObject && DontTestForPower)
+        //    {
+        //        //foreach (GameObject con in obj.GetComponent<DotTileScript>().Connections)
+        //        //{
+
+        //        //}
+        //        //if (!obj.GetComponent<DotTileScript>().Powered)
+        //            DontTestForPower = false;
+        //    }
+        //    if (DontTestForPower == false && hasConnectorObject)
+        //        break;
+
+        //    i++;
+        //}
         if (DontTestForPower)
         {
             return;
@@ -61,56 +201,65 @@ public class PowerLineScript : MonoBehaviour {
         int highestPower = 0;
 		bool fromPowerSource = false;
 		
-		int highestPowerDir = 0;
+//		int highestPowerDir = 0;
+		int highestDotPower = 0;
 		highestPowerObj = null;
 		foreach(GameObject obj in ConnectedDots)
 		{
+			if (obj.GetComponent<DotTileScript>().Power>highestDotPower) 
+				highestDotPower = obj.GetComponent<DotTileScript>().Power;
 			foreach(Collider2D col in Physics2D.OverlapPointAll(obj.transform.position))
 			{
 				if (col.gameObject.layer == 10)
 				{
 					if (col.gameObject.GetComponent<PowerOutput>() != null)
 					{
-						if (col.gameObject.GetComponent<PowerOutput>().Power > highestPower)
+						if (col.gameObject.GetComponent<PowerOutput>().powerOutput > highestPower)
 						{
-							highestPower = col.gameObject.GetComponent<PowerOutput>().Power;
+							highestPower = col.gameObject.GetComponent<PowerOutput>().powerOutput;
 							fromPowerSource = true;
-							highestPowerObj = obj;
+							highestPowerObj = col.gameObject;
+							PowerSourceObj = col.gameObject;
+                           // DontTestForPower = false;
 						}
 					}
 					else
 					{
-						DontTestForPower = true;
 						break;
 					}
 				}
 			}
-			if (DontTestForPower)
-			{
-				DontTestForPower = false;
-				continue;
-			}
 			foreach (GameObject connection in obj.GetComponent<DotTileScript>().Connections)
 			{
-				if (connection != gameObject)
+				if (connection != gameObject && connection.GetComponent<PowerLineScript>().ConnectedDots.Count >= 2)
 				{
 					if (connection.GetComponent<PowerLineScript>().Power > highestPower)
 					{
 						highestPower = connection.GetComponent<PowerLineScript>().Power;
 						fromPowerSource = false;
 						highestPowerObj = obj;
+						PowerSourceObj = connection.GetComponent<PowerLineScript>().PowerSourceObj;
 					}
 				}
+			}
+			if (ignoreDot2)
+			{
+				break;
 			}
 		}
         if (!DontTestForPower)
         {
-            if (highestPower > 0)
-            {
+//			if (PowerSourceObj == null)
+//			{
+//				Power = 0;
+//			}
+//			else 
+				if (highestDotPower > 0)
+			{
                 if (fromPowerSource)
-                    Power = highestPower;
-                else
-                    Power = highestPower - 1;
+					Power = highestDotPower;
+				else
+					Power = highestDotPower - 1;
             }
             else
             {
@@ -122,7 +271,11 @@ public class PowerLineScript : MonoBehaviour {
 	// Update is called once per frame
     void TestPowerFlow()
     {
-        if (Power > 0)
+		if (highestPowerObj == null)
+		{
+			Power = 0;
+		}
+        if (Power > 0 && ConnectedDots.Count >= 2)
         {
             Arrow.SetActive(true);
 
@@ -153,11 +306,17 @@ public class PowerLineScript : MonoBehaviour {
             CurrentFlowDirection = FlowDirection.None;
         }
         if (lineRenderer != null)
+		{
             lineRenderer.SetColors(new Color((float)Power / (float)PowerOutput.MaxPower, (float)Power / (float)PowerOutput.MaxPower, 0),
                                    new Color((float)Power / (float)PowerOutput.MaxPower, (float)Power / (float)PowerOutput.MaxPower, 0));
+		}
+		if (Arrow.GetComponent<SpriteRenderer>() != null){
+			Arrow.GetComponent<SpriteRenderer>().color = new Color((float)Power / (float)PowerOutput.MaxPower, (float)Power / (float)PowerOutput.MaxPower, 0);
+		}
     }
 	void Update () {
-		TestPower();
+        if (ConnectedDots.Count >= 2)
+		    TestPower();
         TestPowerFlow();
         if (control.GetComponent<ControlScript>().CurrentMode != ControlScript.Mode.Connect)
         {
@@ -216,13 +375,24 @@ public class PowerLineScript : MonoBehaviour {
 		lineRenderer.SetVertexCount(indexPos-1);
 		indexPos--;
 	}
+	public void DestroyMe(){
+		foreach(GameObject obj in ConnectedDots)
+		{
+			obj.GetComponent<DotTileScript>().PowerSourceObj = null;
+			if (obj.GetComponent<DotTileScript>().ObjectOnMe != null && 
+			    obj.GetComponent<DotTileScript>().ObjectOnMe.GetComponent<TempPowerOutput>() != null)
+			{
+				obj.GetComponent<DotTileScript>().ObjectOnMe.GetComponent<TempPowerOutput>().ResetPower();
+				obj.GetComponent<DotTileScript>().ObjectOnMe.GetComponent<TempPowerOutput>().Inputs.Remove(gameObject);
+				obj.GetComponent<DotTileScript>().ObjectOnMe.GetComponent<TempPowerOutput>().Outputs.Remove(gameObject);
+			}
+			obj.GetComponent<DotTileScript>().Connections.Remove(gameObject);
+		}
+		Destroy(gameObject);
+	}
 	public void OnTriggerEnter2D(Collider2D col){
 		if (col.tag == gameObject.tag && col.gameObject != gameObject){
-			foreach(GameObject obj in ConnectedDots)
-			{
-				obj.GetComponent<DotTileScript>().Connections.Remove(gameObject);
-			}
-			Destroy(gameObject);
+			DestroyMe();
 		}
 	}
 }

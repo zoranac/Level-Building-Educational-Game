@@ -17,7 +17,7 @@ public class PlaceableObject : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float distance = 3 + Input.mousePosition.x / 10;
         bool hit = false;
-        Collider Obj = new Collider();
+//        Collider Obj = new Collider();
         foreach (RaycastHit obj in Physics.RaycastAll(ray, distance))
         {
             if (obj.collider.gameObject == gameObject)

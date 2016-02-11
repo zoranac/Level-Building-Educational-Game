@@ -10,20 +10,50 @@ public class DotTileScript : MonoBehaviour {
 	bool Tested = false;
 	public bool Powered = false;
 	public int Power = 0;
+	public GameObject PowerSourceObj;
+	public GameObject ObjectOnMe;
 	// Use this for initialization
 	void Start () {
 		
 	}
 	void TestIfPowered(){
+
 		int highestPower = 0;
+
+		if (ObjectOnMe != null && 
+		    ObjectOnMe.GetComponent<PowerOutput>() != null && 
+		    ObjectOnMe.GetComponent<PowerOutput>().powerOutput > 0
+		    )
+		{
+			highestPower = ObjectOnMe.GetComponent<PowerOutput>().powerOutput;
+		}
 		foreach(GameObject obj in Connections)
 		{
 			if (obj.GetComponent<PowerLineScript>().Power > highestPower)
 			{
 				highestPower = obj.GetComponent<PowerLineScript>().Power;
+				PowerSourceObj = obj.GetComponent<PowerLineScript>().PowerSourceObj;
 			}
 		}
 		Power = highestPower;
+
+		if (ObjectOnMe != null && 
+		    ObjectOnMe.GetComponent<TempPowerOutput>() != null)
+		{
+			if (PowerSourceObj == null)
+				Power = 0;
+			if (ObjectOnMe.GetComponent<TempPowerOutput>().tempPowerOutput == 0)
+				Power = 0;
+		}
+
+
+//		else if (ObjectOnMe != null && 
+//		         ObjectOnMe.GetComponent<TempPowerOutput>() != null && 
+//		         ObjectOnMe.GetComponent<TempPowerOutput>().tempPowerOutput > highestPower)
+//		{
+//			Power = ObjectOnMe.GetComponent<TempPowerOutput>().tempPowerOutput;
+//		}
+
 		if (Power > 0)
 		{
 			Powered = true;
