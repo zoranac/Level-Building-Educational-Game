@@ -13,14 +13,20 @@ public class TempPowerOutput : EditableObject {
 	// Use this for initialization
 	void Start () {
 		tempPowerOutput = 0;
-		foreach(Collider2D col in Physics2D.OverlapPointAll(transform.position)){
-			if (col.tag == "DotTile"){
-				dotTile = col.gameObject;
-				dotTile.GetComponent<DotTileScript>().ObjectOnMe = gameObject;
-				break;
-			}
-		}
+        SetDotTile();
 	}
+    public void SetDotTile()
+    {
+        foreach (Collider2D col in Physics2D.OverlapPointAll(transform.position))
+        {
+            if (col.tag == "DotTile")
+            {
+                dotTile = col.gameObject;
+                dotTile.GetComponent<DotTileScript>().ObjectOnMe = gameObject;
+                break;
+            }
+        }
+    }
 	public void ResetPower(){
 		tempPowerOutput = 0;
 		dotTile.GetComponent<DotTileScript>().PowerSourceObj = null;
@@ -33,4 +39,10 @@ public class TempPowerOutput : EditableObject {
 			PowerOutput = int.Parse(value.ToString());
 		}
 	}
+    public void Move(Vector3 MoveToPos)
+    {
+        transform.position = MoveToPos;
+        SetDotTile();
+        ResetPower();
+    }
 }

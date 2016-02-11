@@ -12,6 +12,10 @@ public class PlaceableObject : MonoBehaviour {
 	void Update () {
         TestIfChangeOpacity();
     }
+    public void Move(Vector3 MoveToPos)
+    {
+        transform.position = MoveToPos;
+    }
     protected void TestIfChangeOpacity()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Reflection;
 
-public abstract class EditableObject : MonoBehaviour {
+public abstract class EditableObject : PlaceableObject{
 
 	// Use this for initialization
 	void Start () {

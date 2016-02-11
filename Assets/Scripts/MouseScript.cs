@@ -11,7 +11,7 @@ public class MouseScript : MonoBehaviour {
     public GameObject Highlight;
     public GameObject PowerLine;
 	public GameObject SelectGameObject;
-	public GameObject MoveObject;
+    public GameObject MoveGameObject;
 	GameObject objectEditor;
     bool PlacingPowerline = false;
     GameObject tempPowerLine;
@@ -40,14 +40,16 @@ public class MouseScript : MonoBehaviour {
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-				if (CreateObj == SelectGameObject)
-					SelectObject();
+                if (CreateObj == SelectGameObject)
+                    SelectObject();
+                else if (CreateObj == MoveGameObject)
+                    MoveObject();
                 else if (CreateObj == PowerLine)
-            	    DrawPowerLine();
-			    else if (CreateObj == null)
-				    EraseConnection();
-			    else
-				    CreateConnectionObject();
+                    DrawPowerLine();
+                else if (CreateObj == null)
+                    EraseConnection();
+                else
+                    CreateConnectionObject();
             }
             if (Highlight.activeSelf)
 				Highlight.SetActive(false);
@@ -63,7 +65,11 @@ public class MouseScript : MonoBehaviour {
 				Highlight.SetActive(true);
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (CreateObj == null)
+                if (CreateObj == SelectGameObject)
+                    SelectObject();
+                else if (CreateObj == MoveGameObject)
+                    MoveObject();
+                else if (CreateObj == null)
                     Erase();
                 else
                     Draw();
@@ -84,6 +90,18 @@ public class MouseScript : MonoBehaviour {
                 Camera.main.orthographicSize = Camera.main.orthographicSize - .25f;
         }
 
+    }
+    void MoveObject()
+    {
+        if (Input.GetMouseButtonDown(0) && MoveGameObject.GetComponent<MoveObjectScript>().MoveObject == null)
+        {
+            foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+			{
+                if ((col.gameObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build) ||
+                    (col.gameObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect))
+                    MoveGameObject.GetComponent<MoveObjectScript>().SetMoveObject(col.gameObject);
+            }
+        }
     }
 	void SelectObject(){
 		if (Input.GetMouseButtonDown(0))
