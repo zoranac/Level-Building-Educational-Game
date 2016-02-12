@@ -95,13 +95,32 @@ public class MouseScript : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0) && MoveGameObject.GetComponent<MoveObjectScript>().MoveObject == null)
         {
-            foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+			foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
 			{
-                if ((col.gameObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build) ||
-                    (col.gameObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect))
-                    MoveGameObject.GetComponent<MoveObjectScript>().SetMoveObject(col.gameObject);
-            }
+				if ((col.gameObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build) ||
+				    (col.gameObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect))
+				{
+					MoveGameObject.GetComponent<MoveObjectScript>().SetMoveObject(col.gameObject);
+				}
+			}
+           
         }
+		else if (Input.GetMouseButtonDown(0))
+		{
+			foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+			{
+				if (MoveGameObject.GetComponent<MoveObjectScript>().MoveObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build)
+				{
+					if (col.tag == "Tile")
+						MoveGameObject.GetComponent<MoveObjectScript>().PlaceMoveObject(col.gameObject.transform.position);
+				}
+				else if(MoveGameObject.GetComponent<MoveObjectScript>().MoveObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect)
+				{
+					if (col.tag == "DotTile")
+						MoveGameObject.GetComponent<MoveObjectScript>().PlaceMoveObject(col.gameObject.transform.position);
+				}
+			}
+		}
     }
 	void SelectObject(){
 		if (Input.GetMouseButtonDown(0))

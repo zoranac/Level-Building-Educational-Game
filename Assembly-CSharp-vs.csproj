@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\EditableObject.cs" />
      <Compile Include="Assets\Scripts\EditorGUI.cs" />
      <Compile Include="Assets\Scripts\MouseScript.cs" />
+     <Compile Include="Assets\Scripts\MoveObjectScript.cs" />
      <Compile Include="Assets\Scripts\ObjectPlacementButtonScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\InteractableObject.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PlaceableObject.cs" />
