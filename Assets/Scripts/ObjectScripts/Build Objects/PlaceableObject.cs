@@ -12,8 +12,9 @@ public class PlaceableObject : MonoBehaviour {
 	void Update () {
         TestIfChangeOpacity();
     }
-    public void Move(Vector3 MoveToPos)
+    public virtual void Move(Vector3 MoveToPos)
     {
+        print(this);
         transform.position = MoveToPos;
     }
     protected void TestIfChangeOpacity()

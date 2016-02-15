@@ -21,6 +21,7 @@ public class MoveObjectScript : MonoBehaviour {
         if (MoveObject.GetComponent<PlaceableObject>() != null)
         {
             MoveObject.GetComponent<PlaceableObject>().Move(MoveToPos);
+            MoveObject = null;
         }
     }
 }

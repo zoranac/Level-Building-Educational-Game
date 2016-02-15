@@ -15,4 +15,10 @@ public abstract class EditableObject : PlaceableObject{
 	}
 
 	public abstract void ValueChanged(object field, object value);
+
+    public override void Move(Vector3 MoveToPos)
+    {
+        print(this);
+        transform.position = MoveToPos;
+    }
 }

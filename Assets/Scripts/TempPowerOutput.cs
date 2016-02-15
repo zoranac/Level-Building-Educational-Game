@@ -32,6 +32,11 @@ public class TempPowerOutput : EditableObject {
 		dotTile.GetComponent<DotTileScript>().PowerSourceObj = null;
 		dotTile.GetComponent<DotTileScript>().Power = 0;
 	}
+    public void ResetIO()
+    {
+        Inputs.Clear();
+        Outputs.Clear();
+    }
 	public override void ValueChanged(object sender, object value)
 	{
 		if (sender.ToString() == "System.Int32 PowerOutput")
@@ -39,10 +44,20 @@ public class TempPowerOutput : EditableObject {
 			PowerOutput = int.Parse(value.ToString());
 		}
 	}
-    public void Move(Vector3 MoveToPos)
+    public override void Move(Vector3 MoveToPos)
     {
+        //ResetPower();
+        ResetIO();
+        dotTile.GetComponent<DotTileScript>().ObjectOnMe = null;
+        //dotTile.GetComponent<DotTileScript>().PowerSourceObj = null;
+        //dotTile.GetComponent<DotTileScript>().Power = 0;
+        foreach (GameObject obj in dotTile.GetComponent<DotTileScript>().Connections)
+        {
+            obj.GetComponent<PowerLineScript>().Power = 0;
+            obj.GetComponent<PowerLineScript>().highestPowerObj = null;
+            obj.GetComponent<PowerLineScript>().PowerSourceObj = null;
+        }
         transform.position = MoveToPos;
         SetDotTile();
-        ResetPower();
     }
 }

@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Editable.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MouseScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\Editable.cs" Line="15" Column="45" />
+      <File FileName="Assets\Scripts\Editable.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PowerLineScript.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\PowerOutput.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\ObjectScripts\Connector Objects\LogicGate.cs" Line="1" Column="1" />
@@ -12,7 +12,8 @@
       <File FileName="Assets\Scripts\ObjectScripts\Build Objects\PlaceableObject.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\CameraMovement.cs" Line="1" Column="1" />
       <File FileName="Assets\ObjectEditor.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MouseScript.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MouseScript.cs" Line="115" Column="106" />
+      <File FileName="Assets\Scripts\ControlScript.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
