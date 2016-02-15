@@ -22,12 +22,14 @@ public struct FieldStruct{
 }
 public class ObjectEditor : MonoBehaviour {
 	public GameObject SelectedObject;
+    public GameObject NameObj;
 	public List<Transform> UI_transforms = new List<Transform>();
 	public List<FieldStruct> editableFields = new List<FieldStruct>();
 	public List<Component> components = new List<Component>();
 	List<GameObject> UIObjects = new List<GameObject>();
 	public GameObject slider;
 	public GameObject toggle;
+    public GameObject dropdown;
 	// Use this for initialization
 	string[] GetFieldName(string text)
 	{
@@ -62,7 +64,7 @@ public class ObjectEditor : MonoBehaviour {
 	public void SetSelectedObject(GameObject obj){
 
 		SelectedObject = obj;
-
+        NameObj.GetComponent<Text>().text = SelectedObject.name;
 		foreach(GameObject uiObj in UIObjects){
 			Destroy(uiObj);
 		}
@@ -72,7 +74,7 @@ public class ObjectEditor : MonoBehaviour {
 
 		Component[] scripts = SelectedObject.GetComponents(typeof(MonoBehaviour));
 		const BindingFlags flags = /*BindingFlags.NonPublic | */BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
-		
+
 		int i = 0;
 		while (i < scripts.Length)
 		{
@@ -89,9 +91,11 @@ public class ObjectEditor : MonoBehaviour {
 						string[] names = GetFieldName(text);
 						editableFields.Add(new FieldStruct(fieldInfo,names[0],names[1]));
 						components.Add(scripts[i]);
+                        
 					}
 				}
 			}
+     
 			i++;
 		}
 		i = 0;
@@ -132,6 +136,19 @@ public class ObjectEditor : MonoBehaviour {
 			{
 				print("float");
 			}
+            if (info.FieldType == typeof(LogicGate.GateType))
+            {
+                GameObject Temp = (GameObject)Instantiate(dropdown, UI_transforms[i].position, UI_transforms[i].rotation);
+                Temp.transform.SetParent(gameObject.transform, true);
+                Temp.transform.localScale = new Vector2(1f, 1f);
+                Temp.GetComponentInChildren<Text>().text = f.Name;
+                Temp.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData("AND"));
+                Temp.GetComponent<Dropdown>().options.Add(new Dropdown.OptionData("XOR"));
+                Temp.GetComponent<Dropdown>().value = 0;
+                Temp.GetComponent<Dropdown>().onValueChanged.AddListener(delegate { tempObject.ValueChanged(info, Temp.GetComponent<Dropdown>().value); });
+                UIObjects.Add(Temp);
+                i++;
+            }
 		}
 	}
 	void Start () {

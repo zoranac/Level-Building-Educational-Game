@@ -14,6 +14,7 @@ public class TempPowerOutput : EditableObject {
 	void Start () {
 		tempPowerOutput = 0;
         SetDotTile();
+        Move(gameObject.transform.position);
 	}
     public void SetDotTile()
     {

@@ -73,7 +73,15 @@ public class ControlScript : MonoBehaviour {
 			BuildGUI.SetActive(true);
 			ConnectionGUI.SetActive(false);
 			CurrentMode = Mode.Build;
-			DrawObject = PlaceableObjs[0];
+            foreach (GameObject obj in ConnectionObjs)
+            {
+                if (DrawObject == obj)
+                {
+                    DrawObject = PlaceableObjs[0];
+                    break;
+                }
+            }
+			
         }
         else if (CurrentMode == Mode.Build)
         {
@@ -81,7 +89,14 @@ public class ControlScript : MonoBehaviour {
 			BuildGUI.SetActive(false);
 			ConnectionGUI.SetActive(true);
 			CurrentMode = Mode.Connect;
-			DrawObject = ConnectionObjs[0];
+            foreach (GameObject obj in PlaceableObjs)
+            {
+                if (DrawObject == obj)
+                {
+                    DrawObject = ConnectionObjs[0];
+                    break;
+                }
+            }
         }
         
     }

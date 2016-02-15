@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InteractableObject : PlaceableObject {
+public class InteractableObject : EditableObject {
     public bool AttachedToGenerator;
 
 	// Use this for initialization
@@ -17,4 +17,8 @@ public class InteractableObject : PlaceableObject {
 	{
 
 	}
+    public override void ValueChanged(object field, object value)
+    {
+
+    }
 }

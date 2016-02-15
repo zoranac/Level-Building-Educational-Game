@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PoweredObject : MonoBehaviour {
+public class PoweredObject : PlaceableObject {
     public bool Powered = false;
 	
 	// Update is called once per frame

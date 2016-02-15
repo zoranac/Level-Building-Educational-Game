@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class SwitchScript : InteractableObject {
+    [Editable(true)]
 	public bool On;
     public bool Connected = true;
     public GameObject ConnectorSwitchPrefab;
@@ -39,4 +40,11 @@ public class SwitchScript : InteractableObject {
 	{
 		On = !On;
 	}
+    public override void ValueChanged(object sender, object value)
+    {
+        if (sender.ToString() == "System.Boolean On")
+        {
+            On = bool.Parse(value.ToString());
+        }
+    }
 }

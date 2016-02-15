@@ -105,21 +105,37 @@ public class MouseScript : MonoBehaviour {
 			}
            
         }
-		else if (Input.GetMouseButtonDown(0))
+        else if (Input.GetMouseButtonDown(0) && MoveGameObject.GetComponent<MoveObjectScript>().MoveObject != null)
 		{
+            GameObject obj = null;
 			foreach (Collider2D col in Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
 			{
+                if (col.gameObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build)
+                {
+                    obj = null;
+                    break;
+                }
+                else if (col.gameObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect)
+                {
+                    obj = null;
+                    break;
+                }
 				if (MoveGameObject.GetComponent<MoveObjectScript>().MoveObject.layer == 8 && control.CurrentMode == ControlScript.Mode.Build)
 				{
-					if (col.tag == "Tile")
-						MoveGameObject.GetComponent<MoveObjectScript>().PlaceMoveObject(col.gameObject.transform.position);
+                    if (col.tag == "Tile")
+                        obj = col.gameObject;
+						
 				}
 				else if(MoveGameObject.GetComponent<MoveObjectScript>().MoveObject.layer == 10 && control.CurrentMode == ControlScript.Mode.Connect)
 				{
 					if (col.tag == "DotTile")
-						MoveGameObject.GetComponent<MoveObjectScript>().PlaceMoveObject(col.gameObject.transform.position);
+                        obj = col.gameObject;
 				}
 			}
+            if (obj != null)
+            {
+                MoveGameObject.GetComponent<MoveObjectScript>().PlaceMoveObject(new Vector3(obj.transform.position.x, obj.transform.position.y, MoveGameObject.GetComponent<MoveObjectScript>().MoveObject.transform.position.z));
+            }
 		}
     }
 	void SelectObject(){
@@ -159,6 +175,7 @@ public class MouseScript : MonoBehaviour {
                     if (!PlacingPowerline)
                     {
 						GameObject temp = (GameObject)Instantiate(PowerLine, new Vector3(obj.transform.position.x, obj.transform.position.y,0),  Quaternion.identity);
+                        temp.name = PowerLine.name.Replace("(Clone)", "");
                         tempPowerLine = temp;
 						tempPowerLine.GetComponent<PowerLineScript>().SetUp(obj.transform.position);
                         tempPowerLine.GetComponent<PowerLineScript>().ConnectedDots.Add(obj.collider.gameObject);
@@ -189,7 +206,7 @@ public class MouseScript : MonoBehaviour {
 							tempPowerLine.GetComponent<BoxCollider2D>().enabled = true;
 							//start new connection at last connection's ending point
 							GameObject temp = (GameObject)Instantiate(PowerLine, new Vector3(obj.transform.position.x, obj.transform.position.y,0),  Quaternion.identity);
-
+                            temp.name = PowerLine.name.Replace("(Clone)", "");
 							tempPowerLine = temp;
 							tempPowerLine.GetComponent<PowerLineScript>().SetUp(obj.transform.position);
 							tempPowerLine.GetComponent<PowerLineScript>().ConnectedDots.Add(obj.collider.gameObject);
@@ -274,6 +291,7 @@ public class MouseScript : MonoBehaviour {
             if (instantiate)
             {
                 GameObject tempObj = (GameObject)Instantiate(CreateObj, new Vector3(Obj.transform.position.x, Obj.transform.position.y, 0), Obj.transform.rotation) as GameObject;
+                tempObj.name = tempObj.name.Replace("(Clone)", "");
             }
         }
 	}
@@ -399,7 +417,8 @@ public class MouseScript : MonoBehaviour {
 			if (instantiate)
 			{
 				GameObject tempObj = (GameObject)Instantiate(CreateObj, new Vector3(Obj.transform.position.x, Obj.transform.position.y, -1), Obj.transform.rotation) as GameObject;
-			}
+                tempObj.name = tempObj.name.Replace("(Clone)", "");
+            }
 		}
 	}
 }
