@@ -6,7 +6,7 @@
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
 	<RootNamespace></RootNamespace>
-	<ProjectGuid>{EBA929E8-0049-16D2-4177-ADF19A42EFD8}</ProjectGuid>
+	<ProjectGuid>{E98F0848-3F53-43DD-7F6C-A5CE209C7206}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<AssemblyName>Assembly-CSharp</AssemblyName>
@@ -45,32 +45,34 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ObjectEditor.cs" />
-     <Compile Include="Assets\Scripts\CameraMovement.cs" />
-     <Compile Include="Assets\Scripts\ControlScript.cs" />
-     <Compile Include="Assets\Scripts\DotTileScript.cs" />
+     <Compile Include="Assets\Scripts\Camera\CameraMovement.cs" />
+     <Compile Include="Assets\Scripts\Camera\SupportCameraScript.cs" />
+     <Compile Include="Assets\Scripts\Control and SetUp\ControlScript.cs" />
+     <Compile Include="Assets\Scripts\Control and SetUp\MouseScript.cs" />
+     <Compile Include="Assets\Scripts\Control and SetUp\TileSetUp.cs" />
      <Compile Include="Assets\Scripts\Editable.cs" />
      <Compile Include="Assets\Scripts\EditableObject.cs" />
-     <Compile Include="Assets\Scripts\EditableToggleGroup.cs" />
-     <Compile Include="Assets\Scripts\EditorGUI.cs" />
-     <Compile Include="Assets\Scripts\MouseScript.cs" />
-     <Compile Include="Assets\Scripts\MoveObjectScript.cs" />
-     <Compile Include="Assets\Scripts\ObjectPlacementButtonScript.cs" />
+     <Compile Include="Assets\Scripts\ObjectEditor\EditableToggleGroup.cs" />
+     <Compile Include="Assets\Scripts\ObjectEditor\EditorGUI.cs" />
+     <Compile Include="Assets\Scripts\ObjectEditor\ObjectEditor.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\ButtonScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\InteractableObject.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PlaceableObject.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PoweredDoor.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\PoweredObject.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Build Objects\SwitchScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\ConnectorSwitch.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\CrossWire.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\DotTileScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\GeneratorScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\LogicGate.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\PowerLineScript.cs" />
      <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\PowerOutput.cs" />
-     <Compile Include="Assets\Scripts\PlayModeButton.cs" />
+     <Compile Include="Assets\Scripts\ObjectScripts\Connector Objects\TempPowerOutput.cs" />
      <Compile Include="Assets\Scripts\PlayerScript.cs" />
-     <Compile Include="Assets\Scripts\PowerLineScript.cs" />
-     <Compile Include="Assets\Scripts\SupportCameraScript.cs" />
-     <Compile Include="Assets\Scripts\TempPowerOutput.cs" />
-     <Compile Include="Assets\Scripts\TileSetUp.cs" />
+     <Compile Include="Assets\Scripts\UI\MoveObjectScript.cs" />
+     <Compile Include="Assets\Scripts\UI\ObjectPlacementButtonScript.cs" />
+     <Compile Include="Assets\Scripts\UI\PlayModeButton.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\EditorTag.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\MultiTagManager.cs" />
      <Compile Include="Assets\TagFrenzy\Scripts\Core\TagFrenzyList.cs" />

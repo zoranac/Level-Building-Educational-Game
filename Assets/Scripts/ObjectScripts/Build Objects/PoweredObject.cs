@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PoweredObject : PlaceableObject {
+public class PoweredObject : EditableObject {
+    [Editable(true)]
+    public bool StartPowered = false;
     public bool Powered = false;
-	
 	// Update is called once per frame
 	void FixedUpdate () {
 		TestIfPowered();
@@ -11,8 +12,18 @@ public class PoweredObject : PlaceableObject {
 	void TestIfPowered(){
 		foreach (Collider2D col in Physics2D.OverlapPointAll(transform.position)){
 			if (col.tag == "DotTile"){
-				Powered = col.GetComponent<DotTileScript>().Powered;
+                if (StartPowered)
+				    Powered = !col.GetComponent<DotTileScript>().Powered;
+                else
+                    Powered = col.GetComponent<DotTileScript>().Powered;
 			}
 		}
 	}
+    public override void ValueChanged(object sender, object value)
+    {
+        if (sender.ToString() == "System.Boolean StartPowered")
+        {
+            StartPowered = bool.Parse(value.ToString());
+        }
+    }
 }

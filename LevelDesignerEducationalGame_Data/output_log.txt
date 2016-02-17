@@ -20,7 +20,7 @@ Platform assembly: C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLa
 Loading C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLabTool\LevelDesignerEducationalGame_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLabTool\LevelDesignerEducationalGame_Data\Managed\UnityEngine.UI.dll (this message is harmless)
 Loading C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLabTool\LevelDesignerEducationalGame_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-- Completed reload, in  0.141 seconds
+- Completed reload, in  0.066 seconds
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1200 60Hz; virtual: 1920x1200 at 0,0
@@ -28,5 +28,5 @@ desktop: 1920x1200 60Hz; virtual: 1920x1200 at 0,0
 Platform assembly: C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLabTool\LevelDesignerEducationalGame_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\michael.pattengale\Desktop\MichaelPattengale\AlphaLabTool\LevelDesignerEducationalGame_Data\Managed\System.dll (this message is harmless)
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 10dc -> priority: 1 
-  Thread -> id: 11b0 -> priority: 1 
+  Thread -> id: 21ac -> priority: 1 
+  Thread -> id: 230c -> priority: 1 

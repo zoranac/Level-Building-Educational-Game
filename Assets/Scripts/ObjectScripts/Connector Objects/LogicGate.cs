@@ -6,24 +6,41 @@ public class LogicGate : TempPowerOutput {
     public enum GateType
     {
         AND,
-        XOR
+        OR,
+        XOR,
+        NOT,
+        NAND,
+        NOR,
+        XNOR
     };
-
-
+    public Sprite[] SpritesOff = new Sprite[7]; //0 AND 1 OR 2 XOR 3 NOT 4 NAND 5 NOR 6 XNOR
+    public Sprite[] SpritesOn = new Sprite[7];
 	bool GateOpen = false;
     [Editable(true)]
     public GateType gateType = GateType.AND;
 	// Update is called once per frame
 	void Update () {
 		TestConnection();
-        if (gateType == GateType.AND)
+        switch (gateType)
         {
-            TestANDGate();
+            case GateType.AND: TestANDGate();
+                break;
+            case GateType.OR: TestORGate();
+                break;
+            case GateType.XOR:  TestXORGate();
+                break;
+            case GateType.NOT: TestNOTGate();
+                break;
+            case GateType.NAND: TestNANDGate();
+                break;
+            case GateType.NOR: TestNORGate();
+                break;
+            case GateType.XNOR: TestXNORGate();
+                break;
+            default:
+                break;
         }
-        else if (gateType == GateType.XOR)
-        {
-            TestXORGate();
-        }
+        HideDotTile();
 	}
 	void TestANDGate(){
 		if (Inputs.Count >= 2 && Outputs.Count >= 1)
@@ -58,6 +75,14 @@ public class LogicGate : TempPowerOutput {
 			}
 			GateOpen = false;
 		}
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[0];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[0];
+        }
 	}
     void TestXORGate()
     {
@@ -73,7 +98,7 @@ public class LogicGate : TempPowerOutput {
                     poweredCount++;
                 }
             }
-            if (poweredCount == 1)
+            if (poweredCount == 1 || poweredCount == 3)
             {
                 tempPowerOutput = this.PowerOutput;
                 foreach (GameObject output in Outputs)
@@ -101,8 +126,271 @@ public class LogicGate : TempPowerOutput {
             }
             GateOpen = false;
         }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[2];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[2];
+        }
     }
-	void PowerOutupts(){
+    void TestNANDGate()
+    {
+        if (Inputs.Count >= 2 && Outputs.Count >= 1)
+        {
+            GateOpen = false;
+            int poweredCount = 0;
+            tempPowerOutput = 0;
+            foreach (GameObject input in Inputs)
+            {
+                if (input.GetComponent<PowerLineScript>().Power > 0)
+                {
+                    poweredCount++;
+                }
+            }
+            if (poweredCount < Inputs.Count)
+            {
+                tempPowerOutput = this.PowerOutput;
+                foreach (GameObject output in Outputs)
+                {
+                    if (output.GetComponent<PowerLineScript>().Power == 0)
+                        output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = true;
+            }
+            else
+            {
+                tempPowerOutput = 0;
+                foreach (GameObject output in Outputs)
+                {
+                    output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject output in Outputs)
+            {
+                output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+            }
+            GateOpen = false;
+        }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[4];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[4];
+        }
+    }
+    void TestXNORGate()
+    {
+        if (Inputs.Count >= 2 && Outputs.Count >= 1)
+        {
+            GateOpen = false;
+            int poweredCount = 0;
+            tempPowerOutput = 0;
+            foreach (GameObject input in Inputs)
+            {
+                if (input.GetComponent<PowerLineScript>().Power > 0)
+                {
+                    poweredCount++;
+                }
+            }
+            if (poweredCount == 2 || poweredCount == 0)
+            {
+                tempPowerOutput = this.PowerOutput;
+                foreach (GameObject output in Outputs)
+                {
+                    if (output.GetComponent<PowerLineScript>().Power == 0)
+                        output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = true;
+            }
+            else
+            {
+                tempPowerOutput = 0;
+                foreach (GameObject output in Outputs)
+                {
+                    output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject output in Outputs)
+            {
+                output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+            }
+            GateOpen = false;
+        }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[6];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[6];
+        }
+    }
+    void TestNORGate()
+    {
+        if (Inputs.Count >= 2 && Outputs.Count >= 1)
+        {
+            GateOpen = false;
+            int poweredCount = 0;
+            tempPowerOutput = 0;
+            foreach (GameObject input in Inputs)
+            {
+                if (input.GetComponent<PowerLineScript>().Power > 0)
+                {
+                    poweredCount++;
+                }
+            }
+            if (poweredCount == 0)
+            {
+                tempPowerOutput = this.PowerOutput;
+                foreach (GameObject output in Outputs)
+                {
+                    if (output.GetComponent<PowerLineScript>().Power == 0)
+                        output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = true;
+            }
+            else
+            {
+                tempPowerOutput = 0;
+                foreach (GameObject output in Outputs)
+                {
+                    output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject output in Outputs)
+            {
+                output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+            }
+            GateOpen = false;
+        }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[5];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[5];
+        }
+    }
+    void TestORGate()
+    {
+        if (Inputs.Count >= 2 && Outputs.Count >= 1)
+        {
+            GateOpen = false;
+            int poweredCount = 0;
+            tempPowerOutput = 0;
+            foreach (GameObject input in Inputs)
+            {
+                if (input.GetComponent<PowerLineScript>().Power > 0)
+                {
+                    poweredCount++;
+                }
+            }
+            if (poweredCount > 0)
+            {
+                tempPowerOutput = this.PowerOutput;
+                foreach (GameObject output in Outputs)
+                {
+                    if (output.GetComponent<PowerLineScript>().Power == 0)
+                        output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = true;
+            }
+            else
+            {
+                tempPowerOutput = 0;
+                foreach (GameObject output in Outputs)
+                {
+                    output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject output in Outputs)
+            {
+                output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+            }
+            GateOpen = false;
+        }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[1];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[1];
+        }
+    }
+    void TestNOTGate()
+    {
+        if (Inputs.Count == 1 && Outputs.Count >= 1)
+        {
+            GateOpen = false;
+            int poweredCount = 0;
+            tempPowerOutput = 0;
+            foreach (GameObject input in Inputs)
+            {
+                if (input.GetComponent<PowerLineScript>().Power > 0)
+                {
+                    poweredCount++;
+                }
+            }
+            if (poweredCount == 0)
+            {
+                tempPowerOutput = this.PowerOutput;
+                foreach (GameObject output in Outputs)
+                {
+                    if (output.GetComponent<PowerLineScript>().Power == 0)
+                        output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = true;
+            }
+            else
+            {
+                tempPowerOutput = 0;
+                foreach (GameObject output in Outputs)
+                {
+                    output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+                }
+                GateOpen = false;
+            }
+        }
+        else
+        {
+            foreach (GameObject output in Outputs)
+            {
+                output.GetComponent<PowerLineScript>().SetPower(tempPowerOutput, gameObject, dotTile.GetComponent<DotTileScript>().PowerSourceObj);
+            }
+            GateOpen = false;
+        }
+        if (GateOpen)
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOn[3];
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().sprite = SpritesOff[3];
+        }
+    }
+    void PowerOutupts(){
 
 	}
 	void TestConnection(){
@@ -124,13 +412,24 @@ public class LogicGate : TempPowerOutput {
         print(sender.ToString());
         if (sender.ToString() == "LogicGate+GateType gateType")
         {
-            if (int.Parse(value.ToString()) == 0)
+            switch (int.Parse(value.ToString()))
             {
-                gateType = GateType.AND;
-            }
-            if (int.Parse(value.ToString()) == 1)
-            {
-                gateType = GateType.XOR;
+                case 0: gateType = GateType.AND;
+                    break;
+                case 1: gateType = GateType.OR;
+                    break;
+                case 2: gateType = GateType.XOR;
+                    break;
+                case 3: gateType = GateType.NOT;
+                    break;
+                case 4: gateType = GateType.NAND;
+                    break;
+                case 5: gateType = GateType.NOR;
+                    break;
+                case 6: gateType = GateType.XNOR;
+                    break;
+                default:
+                    break;
             }
         }
 	}
